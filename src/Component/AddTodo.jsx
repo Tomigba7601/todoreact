@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
+import BaseUrl from '../BaseUrl';
 
 const AddTodo = () => {
     const navigate = useNavigate();
@@ -14,14 +16,15 @@ const AddTodo = () => {
             todo_name: todo_name.current.value,
             todo_desc: todo_desc.current.value
         };
-        const baseUrl = "http://127.0.0.1:8000/api/todo/create";
+        // const baseUrl = "http://127.0.0.1:8000/api/todo/create";
 
-        axios.post(baseUrl, data).then(
+        axios.post(BaseUrl + "create", data).then(
             res => {
                 if(res.data.status){
+                console.log(res.data.message);
                 setMessage(res.data.message);
-                    navigate("/viewtodo");
-                }
+            }
+            navigate("/viewtodo");
             })
             .catch(err => {
                 console.log(err);
@@ -47,6 +50,8 @@ const AddTodo = () => {
                         <input type="text" id="todo_desc" name="todo_desc" ref={todo_desc} className="mt-1 text-black  w-full p-2 rounded-md shadow-sm " placeholder='Enter your todo_desc' />
                     </div><br />
                     <button type="submit" name='submit' onClick={submitHandle} className="w-full bg-gray-500 text-white text-2xl font-bold py-2 px-4 rounded-md  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Submit</button>
+
+                    <Link to="/viewtodo" className="w-full bg-gray-500 text-white text-2xl font-bold py-2 px-4 rounded-md mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">View Todo</Link>
                 </form>
 
             </div>
